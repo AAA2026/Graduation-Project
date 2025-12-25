@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Violence Detection System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <h1>Violence Detection</h1>
+    <p class="subtitle">
+      Upload a video, choose a model, and decide whether to run
+      <strong>FAST: violence only</strong> or
+      <strong>DETAILED: violence + weapons &amp; people count</strong>.
+    </p>
+
+    <form id="uploadForm">
+      <div class="row">
+        <label>Choose violence model:</label>
+        <label><input type="radio" name="model" value="x3d" checked> X3D-S</label>
+        <label><input type="radio" name="model" value="tsm"> TSM-MobileNetV2</label>
+      </div>
+
+      <div class="row">
+        <label>Analysis mode:</label>
+        <label>
+          <input type="radio" name="mode" value="violence_only" checked>
+          Violence only (fast)
+        </label>
+        <label>
+          <input type="radio" name="mode" value="full">
+          Violence + weapons &amp; people (slower)
+        </label>
+      </div>
+
+      <div class="row">
+        <label for="videoFile">Video file:</label>
+        <input type="file" id="videoFile" name="video" accept="video/*" required>
+      </div>
+
+      <div class="row">
+        <button type="submit">🔍 Analyze</button>
+        <button type="button" id="pauseBtn">Pause</button>
+        <button type="button" id="resumeBtn">Continue</button>
+      </div>
+    </form>
+
+    <div id="videoContainer">
+      <p><strong>Video preview (for operator):</strong></p>
+      <video id="videoPlayer" controls></video>
+    </div>
+
+    <div id="summary" class="summary">
+      <!-- analysis result will be inserted here -->
+      <em>No analysis yet.</em>
+    </div>
+
+    <p class="tip">
+      Internally, the system runs a video violence model (X3D-S or TSM-MobileNetV2).
+      In <strong>full mode</strong> it also estimates how many people are involved and
+      whether weapons are present. Use <strong>violence only</strong> when you need
+      results as fast as possible.
+    </p>
+  </div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const videoEl = document.getElementById('videoPlayer');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const resumeBtn = document.getElementById('resumeBtn');
+    const summaryEl = document.getElementById('summary');
+
+    let currentJobId = null;
+    let currentModel = 'x3d';
+    let currentMode = 'violence_only';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fileInput = document.getElementById('videoFile');
+      if (!fileInput.files.length) {
+        alert('Pick a video first');
+        return;
+      }
+
+      const fd = new FormData(form);
+      currentModel = fd.get('model') || 'x3d';
+      currentMode = fd.get('mode') || 'violence_only';
+
+      // 1) Upload the video
+      const data = new FormData();
+      data.append('video', fileInput.files[0]);
+      summaryEl.innerHTML = '<em>Uploading...</em>';
+
+      const up = await fetch('/upload', { method: 'POST', body: data });
+      const res = await up.json();
+      if (!up.ok) {
+        summaryEl.innerHTML =
+          `<span class="error-text">Upload failed: ${res.error || 'Unknown error'}</span>`;
+        return;
+      }
+
+      currentJobId = res.job_id;
+
+      // 2) Set video source so operator can watch and pause/continue
+      const videoUrl = `/video/${encodeURIComponent(currentJobId)}`;
+      videoEl.src = videoUrl;
+      videoEl.load();
+
+      // 3) Run analysis
+      summaryEl.innerHTML = '<em>Analyzing video, please wait...</em>';
+
+      const analyzeRes = await fetch('/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          job_id: currentJobId,
+          model: currentModel,
+          mode: currentMode
+        })
+      });
+
+      const result = await analyzeRes.json();
+      if (!analyzeRes.ok) {
+        summaryEl.innerHTML =
+          `<span class="error-text">Analysis failed: ${result.error || 'Unknown error'}</span>`;
+        return;
+      }
+
+      // 4) Pretty HTML card like your Gradio example
+      const isViolent = !!result.violence_detected;
+      const borderColor = isViolent ? '#dc2626' : '#22c55e'; // red / lime
+      const statusText = isViolent
+        ? '🚨 VIOLENCE DETECTED!'
+        : '✔️ NO VIOLENCE DETECTED';
+
+      const modelName = (result.model || currentModel || '').toUpperCase();
+      const score = typeof result.max_violence_score === 'number'
+        ? result.max_violence_score.toFixed(3)
+        : '0.000';
+
+      const modeValue = result.mode || currentMode;
+      const modeReadable = modeValue === 'violence_only'
+        ? 'Violence only (fast)'
+        : 'Violence + weapons & people (slower)';
+
+      let extraMetrics = '';
+      if (modeValue !== 'violence_only') {
+        extraMetrics = `
+          <p><b>People involved:</b> ${result.people_involved}</p>
+          <p><b>Weapons present:</b> ${result.weapons_present ? 'YES' : 'NO'}</p>
+        `;
+      }
+
+      summaryEl.innerHTML = `
+        <div class="result-card" style="border-color:${borderColor};">
+          <h2 class="result-title" style="color:${borderColor};">${statusText}</h2>
+          <hr class="result-separator">
+          <div class="result-meta">
+            <p><b>Model:</b> ${modelName}</p>
+            <p><b>Analysis mode:</b> ${modeReadable}</p>
+          </div>
+          <div class="result-metrics">
+            <p><b>Max violence score (EMA):</b> ${score}</p>
+            ${extraMetrics}
+          </div>
+        </div>
+      `;
+    });
+
+    // Pause + Continue from the same point using the HTML5 video API
+    pauseBtn.addEventListener('click', () => {
+      videoEl.pause();
+    });
+
+    resumeBtn.addEventListener('click', () => {
+      videoEl.play();
+    });
+  </script>
+</body>
+</html>

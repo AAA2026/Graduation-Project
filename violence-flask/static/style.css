@@ -1,0 +1,117 @@
+body {
+  font-family: system-ui, Arial, sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+.wrap {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #111827;
+  border-radius: 16px;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+.row {
+  margin: 12px 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+input[type="file"],
+select {
+  background: #020617;
+  border: 1px solid #1f2937;
+  color: #e5e7eb;
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+
+#videoContainer {
+  margin-top: 20px;
+}
+
+#videoPlayer {
+  width: 100%;
+  max-height: 60vh;
+  background: #0b1020;
+  border-radius: 12px;
+}
+
+.summary {
+  margin-top: 20px;
+  padding: 12px 16px;
+  background: #020617;
+  border-radius: 12px;
+  border: 1px solid #1f2937;
+}
+
+.tip {
+  margin-top: 12px;
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+/* --- New styles for the nice card / messages --- */
+
+.subtitle {
+  margin-top: 4px;
+  margin-bottom: 16px;
+  opacity: 0.85;
+}
+
+.error-text {
+  color: #f87171;
+}
+
+.result-card {
+  background: #020617;
+  border-radius: 12px;
+  padding: 16px 18px;
+  border: 3px solid #22c55e; /* overridden inline */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.result-title {
+  text-align: center;
+  font-size: 1.6rem;
+  margin: 0 0 8px 0;
+}
+
+.result-separator {
+  border: 0;
+  border-top: 1px solid #1f2937;
+  margin: 8px 0 12px 0;
+}
+
+.result-meta {
+  font-size: 0.95rem;
+  color: #9ca3af;
+}
+
+.result-metrics {
+  margin-top: 6px;
+}
+
+.result-metrics p {
+  margin: 4px 0;
+}
