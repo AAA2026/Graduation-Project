@@ -1,0 +1,20 @@
+FAVICON MISSING - How to Add
+
+The favicon.ico file is referenced in /public/index.html but not included.
+
+To add your own favicon:
+
+1. Create or download a .ico file (16x16 or 32x32 pixels)
+2. Name it "favicon.ico"
+3. Place it in this /public folder
+4. Restart dev server if running
+
+Alternative Formats:
+- You can also use .png:
+  <link rel="icon" type="image/png" href="/favicon.png">
+
+Generate Favicon:
+- Use https://favicon.io to create from text/image
+- Use https://realfavicongenerator.net for multi-device icons
+
+For now, the browser will use default favicon (no impact on functionality).

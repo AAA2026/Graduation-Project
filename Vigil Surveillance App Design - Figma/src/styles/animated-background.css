@@ -1,0 +1,180 @@
+/* --- Minimal Animated Grid with Glowing Nodes --- */
+.animated-bg-grid {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.cyber-grid {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 120vw; height: 120vh;
+  transform: translate(-50%, -50%);
+  background-image:
+    linear-gradient(rgba(99,102,241,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,102,241,0.08) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridMove 18s linear infinite;
+}
+@keyframes gridMove {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 60px 60px, 60px 60px; }
+}
+.cyber-node {
+  position: absolute;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #06b6d4 0%, #23272f 80%);
+  opacity: 0.18;
+  filter: blur(2px);
+  animation: nodePulse 4s ease-in-out infinite;
+}
+.cyber-node.n1 { left: 20vw; top: 30vh; animation-delay: 0s; }
+.cyber-node.n2 { left: 60vw; top: 60vh; animation-delay: 1.2s; background: radial-gradient(circle, #6366f1 0%, #23272f 80%); }
+.cyber-node.n3 { left: 80vw; top: 20vh; animation-delay: 2.4s; background: radial-gradient(circle, #60a5fa 0%, #23272f 80%); }
+.cyber-node.n4 { left: 40vw; top: 80vh; animation-delay: 3.1s; background: radial-gradient(circle, #06b6d4 0%, #23272f 80%); }
+.cyber-node.n5 { left: 70vw; top: 40vh; animation-delay: 2.1s; background: radial-gradient(circle, #6366f1 0%, #23272f 80%); }
+@keyframes nodePulse {
+  0%, 100% { opacity: 0.18; filter: blur(2px); }
+  50% { opacity: 0.32; filter: blur(8px); }
+}
+/* --- Cool Cyber Animated Background: Layered Gradients & Neon Rings --- */
+.animated-bg-cyber {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.cyber-gradient {
+  position: absolute;
+  width: 120vw; height: 120vh;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(from 90deg, #06b6d4, #6366f1, #60a5fa, #06b6d4 100%);
+  opacity: 0.13;
+  filter: blur(60px);
+  animation: cyberGradientSpin 18s linear infinite;
+}
+.cyber-gradient.g2 {
+  background: conic-gradient(from 180deg, #23272f, #06b6d4, #6366f1, #23272f 100%);
+  opacity: 0.10;
+  filter: blur(80px);
+  animation-delay: 6s;
+}
+.cyber-gradient.g3 {
+  background: conic-gradient(from 270deg, #6366f1, #60a5fa, #06b6d4, #6366f1 100%);
+  opacity: 0.08;
+  filter: blur(100px);
+  animation-delay: 12s;
+}
+@keyframes cyberGradientSpin {
+  0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+  100% { transform: translate(-50%, -50%) rotate(360deg) scale(1.05); }
+}
+
+/* Neon animated rings */
+.cyber-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid #06b6d4;
+  opacity: 0.18;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: 400px; height: 400px;
+  box-shadow: 0 0 32px 8px #06b6d4aa, 0 0 0 2px #6366f1;
+  animation: cyberRingPulse 6s ease-in-out infinite;
+}
+.cyber-ring.r2 {
+  border-color: #6366f1;
+  box-shadow: 0 0 32px 8px #6366f1aa, 0 0 0 2px #60a5fa;
+  width: 600px; height: 600px;
+  opacity: 0.12;
+  animation-delay: 2s;
+}
+.cyber-ring.r3 {
+  border-color: #60a5fa;
+  box-shadow: 0 0 32px 8px #60a5faaa, 0 0 0 2px #06b6d4;
+  width: 800px; height: 800px;
+  opacity: 0.09;
+  animation-delay: 4s;
+}
+@keyframes cyberRingPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.18; }
+  50% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.28; }
+}
+
+.animated-bg.flying-bg {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 0;
+  background: linear-gradient(135deg, #18181b 0%, #23272f 100%) !important;
+}
+.animated-bg.flying-bg.dark {
+  background: linear-gradient(135deg, #18181b 0%, #23272f 100%) !important;
+}
+.animated-bg.flying-bg.light {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e0e7ef 60%, #c7d2fe 100%) !important;
+}
+.flying-particle {
+  will-change: transform, opacity;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+
+
+
+/* --- Modern Animated Blobs Background --- */
+.animated-bg {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 0;
+  /* Base gradient backgrounds */
+}
+.animated-bg.dark {
+  background: linear-gradient(135deg, #18181b 0%, #23272f 100%);
+}
+.animated-bg.light {
+  background: linear-gradient(135deg, #f3f4f6 0%, #fff 100%);
+}
+.animated-bg-blobs {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.animated-bg-blobs::before,
+.animated-bg-blobs::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.3;
+  animation: moveBlobs 12s ease-in-out infinite alternate;
+}
+.animated-bg.dark .animated-bg-blobs::before {
+  background: #06b6d4;
+  width: 400px; height: 400px; left: 10%; top: 10%;
+}
+.animated-bg.dark .animated-bg-blobs::after {
+  background: #6366f1;
+  width: 300px; height: 300px; right: 15%; bottom: 15%;
+}
+.animated-bg.light .animated-bg-blobs::before {
+  background: #60a5fa;
+  width: 400px; height: 400px; left: 10%; top: 10%;
+}
+.animated-bg.light .animated-bg-blobs::after {
+  background: #facc15;
+  width: 300px; height: 300px; right: 15%; bottom: 15%;
+}
+@keyframes moveBlobs {
+  0% { transform: scale(1) translateY(0); }
+  100% { transform: scale(1.2) translateY(40px); }
+}

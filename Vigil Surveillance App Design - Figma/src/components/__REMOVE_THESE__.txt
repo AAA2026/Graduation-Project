@@ -1,0 +1,10 @@
+Removed files:
+- AnimatedBackgroundSimple.tsx (only used in OLD FRONTEND)
+- AnimatedBackgroundDemo.tsx (only used in OLD FRONTEND)
+- AnimatedBackground.tsx (only used in OLD FRONTEND)
+- AnimatedBackgroundShapes.tsx (self-referential, not used elsewhere)
+- AnimatedBackgroundMinimal.tsx (self-referential, not used elsewhere)
+- AnimatedBackgroundGrid.tsx (self-referential, not used elsewhere)
+
+Kept:
+- AnimatedBackgroundBeams.tsx (actively used in LoginScreen.tsx)

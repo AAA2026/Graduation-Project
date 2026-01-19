@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+node_modules/
+dist/
+build/
+.DS_Store
+logs/
+Videos/
+backend/ai/dataset/
+backend/ai/models/saved_model.pb
+backend/ai/models/variables/
+backend/__pycache__/
+backend/venv/
+Vigil Surveillance App Design - Figma/node_modules/
+Vigil Surveillance App Design - Figma/dist/
+.DS_Store
+*.log
+

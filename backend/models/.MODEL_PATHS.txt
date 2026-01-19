@@ -1,0 +1,16 @@
+# Model file mapping for VIGIL backend
+# Place all model weights in this folder
+
+# Car crash detection
+mobilenetv2_lstm_finetuned.pt  # Used by crash detector
+
+# Violence detection
+mobilenet_clip_best_ts.pt      # Used by violence detector
+
+# People counter
+yolov8n.pt                     # Used by people counter
+
+# (Other models)
+mobilenet_clip_best.pth
+x3d_s_best.pth
+x3d_s_best_ts.pt
